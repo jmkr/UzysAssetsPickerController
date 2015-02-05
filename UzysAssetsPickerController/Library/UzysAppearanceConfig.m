@@ -72,6 +72,14 @@
     return _closeImageName;
 }
 
+- (UIColor *)initialSelectionButtonColor
+{
+    if (!_initialSelectionButtonColor) {
+        return [UIColor lightGrayColor];
+    }
+    return _initialSelectionButtonColor;
+}
+
 - (UIColor *)finishSelectionButtonColor
 {
     if (!_finishSelectionButtonColor) {
@@ -79,5 +87,7 @@
     }
     return _finishSelectionButtonColor;
 }
+
+
 
 @end
