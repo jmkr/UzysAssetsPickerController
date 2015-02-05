@@ -375,7 +375,7 @@
         
     };
     
-    [self.assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll
+    [self.assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll|ALAssetsGroupLibrary|ALAssetsGroupSavedPhotos
                                       usingBlock:resultsBlock
                                     failureBlock:failureBlock];
 }
