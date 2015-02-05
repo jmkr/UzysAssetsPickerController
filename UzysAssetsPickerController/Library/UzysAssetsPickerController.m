@@ -24,9 +24,12 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnClose;
 
 @property (nonatomic, strong) UIView *noAssetView;
-@property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) UzysWrapperPickerController *picker;
-@property (nonatomic, strong) UzysGroupPickerView *groupPicker;
+
+// Making these public so I have access to config from parent view controller
+// @property (nonatomic, strong) UICollectionView *collectionView;
+// @property (nonatomic, strong) UzysWrapperPickerController *picker;
+// @property (nonatomic, strong) UzysGroupPickerView *groupPicker;
+
 //@property (nonatomic, strong) UzysGroupPickerViewController *groupPicker;
 
 @property (nonatomic, strong) ALAssetsGroup *assetsGroup;
@@ -249,7 +252,7 @@
     
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
-    self.collectionView.backgroundColor = [UIColor whiteColor];
+    self.collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.bounces = YES;
     self.collectionView.alwaysBounceVertical = YES;
     self.collectionView.scrollsToTop = YES;

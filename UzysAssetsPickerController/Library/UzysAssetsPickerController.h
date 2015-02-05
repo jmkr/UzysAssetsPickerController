@@ -10,6 +10,8 @@
 #import "UzysAssetsPickerController_Configuration.h"
 #import "UzysAppearanceConfig.h"
 #import <CoreLocation/CoreLocation.h>
+#import "UzysWrapperPickerController.h"
+#import "UzysGroupPickerView.h"
 
 @class UzysAssetsPickerController;
 @protocol UzysAssetsPickerControllerDelegate<NSObject>
@@ -26,6 +28,10 @@
 @property (nonatomic, assign) NSInteger maximumNumberOfSelectionPhoto;
 //--------------------------------------------------------------------
 @property (nonatomic, assign) NSInteger maximumNumberOfSelectionMedia;
+
+@property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) UzysWrapperPickerController *picker;
+@property (nonatomic, strong) UzysGroupPickerView *groupPicker;
 
 @property (nonatomic, weak) id <UzysAssetsPickerControllerDelegate> delegate;
 + (ALAssetsLibrary *)defaultAssetsLibrary;
