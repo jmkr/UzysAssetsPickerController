@@ -81,14 +81,15 @@
 - (void)btnAction:(id)sender
 {
     //if you want to checkout how to config appearance, just uncomment the following 4 lines code.
-#if 0
+//#if 0
     UzysAppearanceConfig *appearanceConfig = [[UzysAppearanceConfig alloc] init];
     appearanceConfig.finishSelectionButtonColor = [UIColor blueColor];
     appearanceConfig.assetsGroupSelectedImageName = @"checker.png";
     appearanceConfig.cellSpacing = 1.0f;
     appearanceConfig.assetsCountInALine = 5;
+    appearanceConfig.useInline = YES;
     [UzysAssetsPickerController setUpAppearanceConfig:appearanceConfig];
-#endif
+//#endif
 
     UzysAssetsPickerController *picker = [[UzysAssetsPickerController alloc] init];
     picker.delegate = self;
