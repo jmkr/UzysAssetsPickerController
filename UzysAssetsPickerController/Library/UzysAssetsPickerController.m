@@ -434,8 +434,21 @@
     UzysAppearanceConfig *appearanceConfig = [UzysAppearanceConfig sharedConfig];
     if (indexPaths.count == self.maximumNumberOfSelection) {
         [self.btnDone setBackgroundColor:appearanceConfig.finishSelectionButtonColor];
+
+        if (self.delegate && [self.delegate respondsToSelector:@selector(uzysAssetsPickerControllerDidSatisfyMediaRequirements:withAssets:)]) {
+            NSMutableArray *assets = [[NSMutableArray alloc] init];
+            for (NSIndexPath *indexPath in self.collectionView.indexPathsForSelectedItems) {
+                [assets addObject:[self.assets objectAtIndex:indexPath.item]];
+            }
+            [self.delegate uzysAssetsPickerControllerDidSatisfyMediaRequirements:self withAssets:assets];
+        }
+
     } else {
         [self.btnDone setBackgroundColor:appearanceConfig.initialSelectionButtonColor];
+
+        if (self.delegate && [self.delegate respondsToSelector:@selector(uzysAssetsPickerControllerDidBreakMediaRequirements:)]) {
+            [self.delegate uzysAssetsPickerControllerDidBreakMediaRequirements:self];
+        }
     }
 
     //[self.btnDone setTitle:[NSString stringWithFormat:@"%lu",(unsigned long)indexPaths.count] forState:UIControlStateNormal];
@@ -473,9 +486,9 @@
 
     UzysAppearanceConfig *appearanceConfig = [UzysAppearanceConfig sharedConfig];
     if (appearanceConfig.useInline) {
-        title.center            = CGPointMake(noAssetsView.center.x, noAssetsView.center.y - 10 - title.frame.size.height / 2 + 40 - 90);
-        message.center          = CGPointMake(noAssetsView.center.x, noAssetsView.center.y + 10 + message.frame.size.height / 2 + 20 - 90);
-        titleImage.center       = CGPointMake(noAssetsView.center.x, noAssetsView.center.y - 10 - titleImage.frame.size.height /2 - 90);
+        title.center            = CGPointMake(noAssetsView.center.x, noAssetsView.center.y - 10 - title.frame.size.height / 2 + 40 - 100);
+        message.center          = CGPointMake(noAssetsView.center.x, noAssetsView.center.y + 10 + message.frame.size.height / 2 + 20 - 100);
+        titleImage.center       = CGPointMake(noAssetsView.center.x, noAssetsView.center.y - 10 - titleImage.frame.size.height /2 - 100);
     } else {
         title.center            = CGPointMake(noAssetsView.center.x, noAssetsView.center.y - 10 - title.frame.size.height / 2 + 40);
         message.center          = CGPointMake(noAssetsView.center.x, noAssetsView.center.y + 10 + message.frame.size.height / 2 + 20);
