@@ -18,6 +18,8 @@
 @optional
 - (void)uzysAssetsPickerControllerDidCancel:(UzysAssetsPickerController *)picker;
 - (void)uzysAssetsPickerControllerDidExceedMaximumNumberOfSelection:(UzysAssetsPickerController *)picker;
+- (void)uzysAssetsPickerControllerDidSatisfyMediaRequirements:(UzysAssetsPickerController *)picker withAssets:(NSArray *)assets;
+- (void)uzysAssetsPickerControllerDidBreakMediaRequirements:(UzysAssetsPickerController *)picker;
 @end
 
 @interface UzysAssetsPickerController : UIViewController

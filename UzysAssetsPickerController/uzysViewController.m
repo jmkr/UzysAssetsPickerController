@@ -85,7 +85,7 @@
     UzysAppearanceConfig *appearanceConfig = [[UzysAppearanceConfig alloc] init];
     appearanceConfig.finishSelectionButtonColor = [UIColor blueColor];
     appearanceConfig.assetsGroupSelectedImageName = @"checker.png";
-    appearanceConfig.useInline = YES;
+    appearanceConfig.useInline = NO;
     [UzysAssetsPickerController setUpAppearanceConfig:appearanceConfig];
 //#endif
 
@@ -94,11 +94,11 @@
     if([sender isEqual:self.btnImage])
     {
         picker.maximumNumberOfSelectionVideo = 0;
-        picker.maximumNumberOfSelectionPhoto = 3;
+        picker.maximumNumberOfSelectionPhoto = 1;
     }
     else if([sender isEqual:self.btnVideo])
     {
-        picker.maximumNumberOfSelectionVideo = 2;
+        picker.maximumNumberOfSelectionVideo = 1;
         picker.maximumNumberOfSelectionPhoto = 0;
     }
     else if([sender isEqual:self.btnImageOrVideo])
