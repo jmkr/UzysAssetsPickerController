@@ -106,12 +106,12 @@
     //[self initNoAssetView];
     
 }
-
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
+    [super viewWillAppear:animated];
     [self setupCollectionView];
     [self initNoAssetView];
+    [self reloadData];
 }
 
 - (void)initVariable
