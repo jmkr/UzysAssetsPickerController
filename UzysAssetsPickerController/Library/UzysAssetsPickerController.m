@@ -93,10 +93,17 @@
         [weakSelf.groupPicker.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
     } withSetupAsset:YES];
     [self setupLayout];
-    [self setupCollectionView];
+    //[self setupCollectionView];
     [self setupGroupPickerview];
-    [self initNoAssetView];
+    //[self initNoAssetView];
     
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self setupCollectionView];
+    [self initNoAssetView];
 }
 
 - (void)initVariable
@@ -158,6 +165,7 @@
     UzysAppearanceConfig *appearanceConfig = [UzysAppearanceConfig sharedConfig];
     if (appearanceConfig.useInline) {
         [self.navigationTop setHidden:YES];
+        [self.bottomView setHidden:YES];
     } else {
         [self.view bringSubviewToFront:self.navigationTop];
     }
@@ -221,13 +229,14 @@
 {
     UICollectionViewFlowLayout *layout  = [[UICollectionViewFlowLayout alloc] init];
     layout.itemSize                     = kThumbnailSize;
-    layout.sectionInset                 = UIEdgeInsetsMake(1.0, 0, 0, 0);
+    layout.sectionInset                 = UIEdgeInsetsMake(0, 0, 0, 0);
     layout.minimumInteritemSpacing      = 1.0;
     layout.minimumLineSpacing           = 1.0;
 
     UzysAppearanceConfig *appearanceConfig = [UzysAppearanceConfig sharedConfig];
     if (appearanceConfig.useInline) {
-        self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 48) collectionViewLayout:layout];
+        // NSLog(@"setting collection view bounds: %@", NSStringFromCGRect(self.view.frame));
+        self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) collectionViewLayout:layout];
     } else {
         self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 64 - 48) collectionViewLayout:layout];
     }
