@@ -467,7 +467,7 @@
 - (void)initNoAssetView
 {
     UIView *noAssetsView    = [[UIView alloc] initWithFrame:self.collectionView.bounds];
-    
+    // NSLog(@"init no assets view with bounds: %@", NSStringFromCGRect(self.collectionView.bounds));
     CGRect rect             = CGRectInset(self.collectionView.bounds, 10, 10);
     UILabel *title          = [[UILabel alloc] initWithFrame:rect];
     UILabel *message        = [[UILabel alloc] initWithFrame:rect];
@@ -493,16 +493,9 @@
     [title sizeToFit];
     [message sizeToFit];
 
-    UzysAppearanceConfig *appearanceConfig = [UzysAppearanceConfig sharedConfig];
-    if (appearanceConfig.useInline) {
-        title.center            = CGPointMake(noAssetsView.center.x, noAssetsView.center.y - 10 - title.frame.size.height / 2 + 40 - 100);
-        message.center          = CGPointMake(noAssetsView.center.x, noAssetsView.center.y + 10 + message.frame.size.height / 2 + 20 - 100);
-        titleImage.center       = CGPointMake(noAssetsView.center.x, noAssetsView.center.y - 10 - titleImage.frame.size.height /2 - 100);
-    } else {
-        title.center            = CGPointMake(noAssetsView.center.x, noAssetsView.center.y - 10 - title.frame.size.height / 2 + 40);
-        message.center          = CGPointMake(noAssetsView.center.x, noAssetsView.center.y + 10 + message.frame.size.height / 2 + 20);
-        titleImage.center       = CGPointMake(noAssetsView.center.x, noAssetsView.center.y - 10 - titleImage.frame.size.height /2);
-    }
+    title.center            = CGPointMake(noAssetsView.center.x, noAssetsView.center.y - 10 - title.frame.size.height / 2 + 40);
+    message.center          = CGPointMake(noAssetsView.center.x, noAssetsView.center.y + 10 + message.frame.size.height / 2 + 20);
+    titleImage.center       = CGPointMake(noAssetsView.center.x, noAssetsView.center.y - 10 - titleImage.frame.size.height /2);
 
     [noAssetsView addSubview:title];
     [noAssetsView addSubview:message];
