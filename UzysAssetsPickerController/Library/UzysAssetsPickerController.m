@@ -112,7 +112,7 @@
     if (!isNoAssetViewInit) {
         [self initNoAssetView];
     }
-    [self reloadData];
+    //[self reloadData];
 }
 
 - (void)initVariable
