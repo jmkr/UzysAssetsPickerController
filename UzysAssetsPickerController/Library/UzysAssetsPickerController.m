@@ -711,6 +711,16 @@
         }
     }
 }
+
+- (void)clearSelection
+{
+    for (NSIndexPath *toDeselect in self.collectionView.indexPathsForSelectedItems)
+    {
+        [self.collectionView deselectItemAtIndexPath:toDeselect animated:YES];
+    }
+    [self setAssetsCountWithSelectedIndexPaths:self.collectionView.indexPathsForSelectedItems];
+}
+
 #pragma mark - Helper methods
 - (NSDictionary *)queryStringToDictionaryOfNSURL:(NSURL *)url
 {
