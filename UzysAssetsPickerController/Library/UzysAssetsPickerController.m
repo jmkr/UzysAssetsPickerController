@@ -8,6 +8,11 @@
 #import "UzysAssetsPickerController.h"
 #import "UzysAssetsViewCell.h"
 @interface UzysAssetsPickerController ()<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+{
+    BOOL isCollectionViewInit;
+    BOOL isNoAssetViewInit;
+}
+
 //View
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewTitleArrow;
 @property (weak, nonatomic) IBOutlet UIButton *btnTitle;
@@ -101,8 +106,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self setupCollectionView];
-    [self initNoAssetView];
+    if (!isCollectionViewInit) {
+        [self setupCollectionView];
+    }
+    if (!isNoAssetViewInit) {
+        [self initNoAssetView];
+    }
     [self reloadData];
 }
 
@@ -227,6 +236,7 @@
 
 - (void)setupCollectionView
 {
+    isCollectionViewInit = NO;
     UICollectionViewFlowLayout *layout  = [[UICollectionViewFlowLayout alloc] init];
     layout.itemSize                     = kThumbnailSize;
     layout.sectionInset                 = UIEdgeInsetsMake(0, 0, 0, 0);
@@ -252,6 +262,7 @@
     self.collectionView.alwaysBounceVertical = YES;
 
     [self.view insertSubview:self.collectionView atIndex:0];
+    isCollectionViewInit = YES;
 }
 #pragma mark - Property
 - (void)setAssetsFilter:(ALAssetsFilter *)assetsFilter type:(NSInteger)type
@@ -443,6 +454,7 @@
 #pragma mark - Asset Exception View
 - (void)initNoAssetView
 {
+    isNoAssetViewInit = NO;
     UIView *noAssetsView    = [[UIView alloc] initWithFrame:self.collectionView.bounds];
     // NSLog(@"init no assets view with bounds: %@", NSStringFromCGRect(self.collectionView.bounds));
     CGRect rect             = CGRectInset(self.collectionView.bounds, 10, 10);
@@ -481,6 +493,7 @@
     [self.collectionView addSubview:noAssetsView];
     self.noAssetView = noAssetsView;
     self.noAssetView.hidden = YES;
+    isNoAssetViewInit = YES;
 }
 
 - (void)showNotAllowed
