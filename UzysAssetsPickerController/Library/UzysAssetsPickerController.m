@@ -112,7 +112,6 @@
     if (!isNoAssetViewInit) {
         [self initNoAssetView];
     }
-    //[self reloadData];
 }
 
 - (void)initVariable
@@ -494,6 +493,7 @@
     self.noAssetView = noAssetsView;
     self.noAssetView.hidden = YES;
     isNoAssetViewInit = YES;
+    [self reloadData];
 }
 
 - (void)showNotAllowed
