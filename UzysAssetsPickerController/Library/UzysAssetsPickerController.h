@@ -42,4 +42,6 @@
  */
 + (void)setUpAppearanceConfig:(UzysAppearanceConfig *)config;
 
+- (void)clearSelection;
+
 @end
