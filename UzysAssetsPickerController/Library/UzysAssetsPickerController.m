@@ -731,7 +731,7 @@
         [self.collectionView deselectItemAtIndexPath:toDeselect animated:YES];
     }
     [self setAssetsCountWithSelectedIndexPaths:self.collectionView.indexPathsForSelectedItems];
-}}
+}
 
 #pragma mark - Helper methods
 - (NSDictionary *)queryStringToDictionaryOfNSURL:(NSURL *)url
