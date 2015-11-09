@@ -87,8 +87,8 @@
     appearanceConfig.assetsGroupSelectedImageName = @"checker.png";
     appearanceConfig.cellSpacing = 1.0f;
     appearanceConfig.assetsCountInALine = 5;
-
     appearanceConfig.useInline = YES;
+
     [UzysAssetsPickerController setUpAppearanceConfig:appearanceConfig];
 //#endif
 
