@@ -255,7 +255,6 @@
     layout.minimumInteritemSpacing      = 1.0;
     layout.minimumLineSpacing           = appearanceConfig.cellSpacing;
 
-    UzysAppearanceConfig *appearanceConfig = [UzysAppearanceConfig sharedConfig];
     if (appearanceConfig.useInline) {
         // NSLog(@"setting collection view bounds: %@", NSStringFromCGRect(self.view.frame));
         self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) collectionViewLayout:layout];
