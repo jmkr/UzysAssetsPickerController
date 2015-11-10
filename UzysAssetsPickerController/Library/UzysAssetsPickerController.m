@@ -248,9 +248,18 @@
     UICollectionViewFlowLayout *layout  = [[UICollectionViewFlowLayout alloc] init];
     
     UzysAppearanceConfig *appearanceConfig = [UzysAppearanceConfig sharedConfig];
+
+    if (appearanceConfig.useInline) {
+        CGFloat itemWidth = (self.view.bounds.size.width - appearanceConfig.cellSpacing * ((CGFloat)appearanceConfig.assetsCountInALine - 1.0f)) / (CGFloat)appearanceConfig.assetsCountInALine;
+        NSLog(@"Appearance config: %@", appearanceConfig);
+        NSLog(@"cellSpacing is %f", appearanceConfig.cellSpacing);
+        NSLog(@"Setting itemWidth to %f", itemWidth);
+        layout.itemSize = CGSizeMake(itemWidth, itemWidth);
+    } else {
+        CGFloat itemWidth = ([UIScreen mainScreen].bounds.size.width - appearanceConfig.cellSpacing * ((CGFloat)appearanceConfig.assetsCountInALine - 1.0f)) / (CGFloat)appearanceConfig.assetsCountInALine;
+        layout.itemSize = CGSizeMake(itemWidth, itemWidth);
+    }
     
-    CGFloat itemWidth = ([UIScreen mainScreen].bounds.size.width - appearanceConfig.cellSpacing * ((CGFloat)appearanceConfig.assetsCountInALine - 1.0f)) / (CGFloat)appearanceConfig.assetsCountInALine;
-    layout.itemSize = CGSizeMake(itemWidth, itemWidth);
     layout.sectionInset                 = UIEdgeInsetsMake(1.0, 0, 0, 0);
     layout.minimumInteritemSpacing      = 1.0;
     layout.minimumLineSpacing           = appearanceConfig.cellSpacing;
