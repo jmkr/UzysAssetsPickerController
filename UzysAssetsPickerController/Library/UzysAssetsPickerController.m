@@ -108,7 +108,7 @@
     [self setupLayout];
     //[self setupCollectionView];
     [self setupGroupPickerview];
-    //[self initNoAssetView];
+    [self initNoAssetView];
     
 }
 - (void)viewWillAppear:(BOOL)animated
@@ -511,9 +511,9 @@
     [title sizeToFit];
     [message sizeToFit];
 
-    title.center            = CGPointMake(noAssetsView.center.x, noAssetsView.center.y - 10 - title.frame.size.height / 2 + 40);
-    message.center          = CGPointMake(noAssetsView.center.x, noAssetsView.center.y + 10 + message.frame.size.height / 2 + 20);
-    titleImage.center       = CGPointMake(noAssetsView.center.x, noAssetsView.center.y - 10 - titleImage.frame.size.height /2);
+    title.center            = CGPointMake(noAssetsView.center.x, noAssetsView.center.y - 10 - title.frame.size.height / 2 + 20);
+    message.center          = CGPointMake(noAssetsView.center.x, noAssetsView.center.y + 10 + message.frame.size.height / 2);
+    titleImage.center       = CGPointMake(noAssetsView.center.x, noAssetsView.center.y - 10 - titleImage.frame.size.height /2 - 20);
 
     [noAssetsView addSubview:title];
     [noAssetsView addSubview:message];
