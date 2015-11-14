@@ -108,7 +108,7 @@
     [self setupLayout];
     //[self setupCollectionView];
     [self setupGroupPickerview];
-    [self initNoAssetView];
+    //[self initNoAssetView];
     
 }
 - (void)viewWillAppear:(BOOL)animated
