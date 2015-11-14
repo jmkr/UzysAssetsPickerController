@@ -251,9 +251,9 @@
 
     if (appearanceConfig.useInline) {
         CGFloat itemWidth = (self.view.bounds.size.width - appearanceConfig.cellSpacing * ((CGFloat)appearanceConfig.assetsCountInALine - 1.0f)) / (CGFloat)appearanceConfig.assetsCountInALine;
-        NSLog(@"Appearance config: %@", appearanceConfig);
-        NSLog(@"cellSpacing is %f", appearanceConfig.cellSpacing);
-        NSLog(@"Setting itemWidth to %f", itemWidth);
+        // NSLog(@"Appearance config: %@", appearanceConfig);
+        // NSLog(@"cellSpacing is %f", appearanceConfig.cellSpacing);
+        // NSLog(@"Setting itemWidth to %f", itemWidth);
         layout.itemSize = CGSizeMake(itemWidth, itemWidth);
     } else {
         CGFloat itemWidth = ([UIScreen mainScreen].bounds.size.width - appearanceConfig.cellSpacing * ((CGFloat)appearanceConfig.assetsCountInALine - 1.0f)) / (CGFloat)appearanceConfig.assetsCountInALine;
