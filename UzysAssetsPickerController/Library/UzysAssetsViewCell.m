@@ -11,6 +11,7 @@
 
 @interface UzysAssetsViewCell()
 @property (nonatomic, strong) ALAsset *asset;
+@property (nonatomic, strong) PHAsset *phAsset;
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, copy) NSString *type;
 @property (nonatomic, copy) NSString *title;
@@ -61,6 +62,36 @@ static CGFloat thumnailLength;
     self.image  = [UIImage imageWithCGImage:asset.thumbnail];
     self.type   = [asset valueForProperty:ALAssetPropertyType];
     self.title  = [UzysAssetsViewCell getTimeStringOfTimeInterval:[[asset valueForProperty:ALAssetPropertyDuration] doubleValue]];
+}
+- (void)applyAssetData:(PHAsset *)asset
+{
+    self.phAsset = asset;
+    [self showSquareImageForAsset:asset];    
+}
+
+- (void)showSquareImageForAsset:(PHAsset *)asset {
+    NSInteger retinaScale = [UIScreen mainScreen].scale;
+    CGSize retinaSquare = CGSizeMake(100*retinaScale, 100*retinaScale);
+    
+    PHImageRequestOptions *cropToSquare = [[PHImageRequestOptions alloc] init];
+    cropToSquare.resizeMode = PHImageRequestOptionsResizeModeExact;
+    
+    CGFloat cropSideLength = MIN(asset.pixelWidth, asset.pixelHeight);
+    CGRect square = CGRectMake(0, 0, cropSideLength, cropSideLength);
+    CGRect cropRect = CGRectApplyAffineTransform(square,
+                                                 CGAffineTransformMakeScale(1.0 / asset.pixelWidth,
+                                                                            1.0 / asset.pixelHeight));
+    
+    cropToSquare.normalizedCropRect = cropRect;
+    
+    [[PHImageManager defaultManager]
+     requestImageForAsset:(PHAsset *)asset
+     targetSize:retinaSquare
+     contentMode:PHImageContentModeAspectFit
+     options:cropToSquare
+     resultHandler:^(UIImage *result, NSDictionary *info) {
+         self.image = result;
+     }];
 }
 
 - (void)setSelected:(BOOL)selected

@@ -10,6 +10,7 @@
 #import "UzysWrapperPickerController.h"
 #import "UzysGroupPickerView.h"
 #import <ImageIO/ImageIO.h>
+@import Photos;
 
 @interface UzysAssetsPickerController ()<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
@@ -41,6 +42,8 @@
 @property (nonatomic, strong) NSMutableArray *groups;
 @property (nonatomic, strong) ALAssetsLibrary *assetsLibrary;
 
+@property (nonatomic, strong) PHPhotoLibrary *photoLibrary;
+
 @property (nonatomic, strong) NSMutableArray *assets;
 @property (nonatomic, assign) NSInteger numberOfPhotos;
 @property (nonatomic, assign) NSInteger numberOfVideos;
@@ -68,6 +71,16 @@
                   {
                       library = [[ALAssetsLibrary alloc] init];
                   });
+    return library;
+}
+
++(PHPhotoLibrary *)defaultPhotoLibrary
+{
+    static dispatch_once_t pred = 0;
+    static PHPhotoLibrary *library = nil;
+    dispatch_once(&pred,^ {
+        library = [PHPhotoLibrary sharedPhotoLibrary];
+    });
     return library;
 }
 
@@ -342,6 +355,10 @@
         self.assetsLibrary = [self.class defaultAssetsLibrary];
     }
     
+    if (!self.photoLibrary) {
+        self.photoLibrary = [self.class defaultPhotoLibrary];
+    }
+
     if (!self.groups)
         self.groups = [[NSMutableArray alloc] init];
     else
@@ -349,6 +366,11 @@
     
     
     __weak typeof(self) weakSelf = self;
+    
+    
+    
+    
+    
     
     ALAssetsFilter *assetsFilter = self.assetsFilter; // number of Asset 메쏘드 호출 시에 적용.
     
@@ -410,6 +432,33 @@
 {
     self.title = [self.assetsGroup valueForProperty:ALAssetsGroupPropertyName];
     
+    NSArray *collectionsFetchResults;
+    NSMutableArray *localizedTitles = [[NSMutableArray alloc] init];
+    
+    PHFetchResult *smartAlbums = [PHAssetCollection       fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
+                                                                                subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
+    PHFetchResult *syncedAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum
+                                                                           subtype:PHAssetCollectionSubtypeAlbumSyncedAlbum options:nil];
+    PHFetchResult *userCollections = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
+    
+    // Add each PHFetchResult to the array
+    collectionsFetchResults = @[smartAlbums, userCollections, syncedAlbums];
+    
+    NSMutableArray *assetsFetchResults = [NSMutableArray new];
+    
+    //for (int i = 0; i < collectionsFetchResults.count; i ++) {
+        
+        //PHFetchResult *fetchResult = collectionsFetchResults[i];
+        
+        for (int x = 0; x < smartAlbums.count; x ++) {
+            PHAssetCollection *collection = smartAlbums[x];
+            localizedTitles[x] = collection.localizedTitle;
+            PHFetchOptions *options = [[PHFetchOptions alloc] init];
+            [assetsFetchResults addObjectsFromArray:[PHAsset fetchAssetsInAssetCollection:collection options:options]];
+        }
+    //}
+
+    
     if (!self.assets)
         self.assets = [[NSMutableArray alloc] init];
     else
@@ -419,35 +468,48 @@
     {
         self.assetsGroup = self.groups[0];
     }
-    [self.assetsGroup setAssetsFilter:self.assetsFilter];
-    __weak typeof(self) weakSelf = self;
     
-    ALAssetsGroupEnumerationResultsBlock resultsBlock = ^(ALAsset *asset, NSUInteger index, BOOL *stop) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (asset)
-        {
-            [strongSelf.assets addObject:asset];
-            
-            NSString *type = [asset valueForProperty:ALAssetPropertyType];
-            
-            if ([type isEqual:ALAssetTypePhoto])
-                strongSelf.numberOfPhotos ++;
-            if ([type isEqual:ALAssetTypeVideo])
-                strongSelf.numberOfVideos ++;
-        }
+    self.numberOfPhotos = assetsFetchResults.count;
+    self.assets = assetsFetchResults;
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self reloadData];
+        if(successBlock)
+            successBlock();
         
-        else
-        {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self reloadData];
-                if(successBlock)
-                    successBlock();
-                
-            });
-            
-        }
-    };
-    [self.assetsGroup enumerateAssetsWithOptions:NSEnumerationReverse usingBlock:resultsBlock];
+    });
+    
+    
+    
+//    [self.assetsGroup setAssetsFilter:self.assetsFilter];
+//    __weak typeof(self) weakSelf = self;
+//    
+//    ALAssetsGroupEnumerationResultsBlock resultsBlock = ^(ALAsset *asset, NSUInteger index, BOOL *stop) {
+//        __strong typeof(weakSelf) strongSelf = weakSelf;
+//        if (asset)
+//        {
+//            [strongSelf.assets addObject:asset];
+//            
+//            NSString *type = [asset valueForProperty:ALAssetPropertyType];
+//            
+//            if ([type isEqual:ALAssetTypePhoto])
+//                strongSelf.numberOfPhotos ++;
+//            if ([type isEqual:ALAssetTypeVideo])
+//                strongSelf.numberOfVideos ++;
+//        }
+//        
+//        else
+//        {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [self reloadData];
+//                if(successBlock)
+//                    successBlock();
+//                
+//            });
+//            
+//        }
+//    };
+//    [self.assetsGroup enumerateAssetsWithOptions:NSEnumerationReverse usingBlock:resultsBlock];
 }
 - (void)reloadData
 {
@@ -658,8 +720,11 @@
     
     UzysAssetsViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    [cell applyData:[self.assets objectAtIndex:indexPath.row]];
-    
+    PHAsset *asset = [self.assets objectAtIndex:indexPath.row];
+    [cell applyAssetData:asset];
+
+    //[cell applyData:[self.assets objectAtIndex:indexPath.row]];
+
     return cell;
 }
 
