@@ -454,6 +454,9 @@
             PHAssetCollection *collection = smartAlbums[x];
             localizedTitles[x] = collection.localizedTitle;
             PHFetchOptions *options = [[PHFetchOptions alloc] init];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"mediaType = %i", PHAssetMediaTypeVideo];
+            options.predicate = predicate;
+            
             [assetsFetchResults addObjectsFromArray:[PHAsset fetchAssetsInAssetCollection:collection options:options]];
         }
     //}
