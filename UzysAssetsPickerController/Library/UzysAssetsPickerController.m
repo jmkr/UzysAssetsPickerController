@@ -117,6 +117,11 @@
     if (!isCollectionViewInit) {
         [self setupCollectionView];
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     if (!isNoAssetViewInit) {
         [self initNoAssetView];
     }
